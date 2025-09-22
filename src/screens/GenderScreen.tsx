@@ -14,13 +14,21 @@ import colors from "../themes/colors";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/Type";
 import { Ionicons } from "@expo/vector-icons"; // expo vector icons
+import { FitnessData } from "../navigation/FitnessData";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Gender">;
 
-export default function GenderScreen({ navigation }: Props) {
+export default function GenderScreen({ route, navigation }: Props) {
+  const fitnessData: FitnessData = route.params?.fitnessData || {};
+
+  // const handleSelectGender = (gender: "male" | "female" | "other") => {
+  //   navigation.navigate("Workout", {
+  //   fitnessData: { ...fitnessData, gender },
+  // });
+  // };
+
   const [selected, setSelected] = useState<string | null>(null);
 
-  
   const totalSteps = 7;
   const currentStep = 2;
   const progressWidth = `${(currentStep / totalSteps) * 100}%`;
@@ -64,18 +72,18 @@ export default function GenderScreen({ navigation }: Props) {
           <View style={styles.tileContainer}>
             <TileButton
               label="Male"
-              selected={selected === "Male"}
-              onPress={() => setSelected("Male")}
+              selected={selected === "male"}
+              onPress={() => setSelected("male")}
             />
             <TileButton
               label="Female"
-              selected={selected === "Female"}
-              onPress={() => setSelected("Female")}
+              selected={selected === "female"}
+              onPress={() => setSelected("female")}
             />
             <TileButton
               label="Other"
-              selected={selected === "Other"}
-              onPress={() => setSelected("Other")}
+              selected={selected === "other"}
+              onPress={() => setSelected("other")}
             />
           </View>
         </View>
@@ -85,7 +93,15 @@ export default function GenderScreen({ navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Next"
-          onPress={() => navigation.navigate("Workout")} 
+          onPress={() => {
+            if (!selected) {
+              console.log("No selection yet");
+              return;
+            }
+            const updatedFitnessData = { ...fitnessData, gender: selected };
+            console.log("Updated fitnessData:", updatedFitnessData);
+            navigation.navigate("Workout", { fitnessData: updatedFitnessData });
+          }}
           variant="primary"
         />
       </View>
@@ -161,13 +177,12 @@ const styles = StyleSheet.create({
     marginTop: 60,
     flexDirection: "column",
     gap: 10,
-   
   },
   footer: {
     padding: 24,
     paddingBottom: 34,
     borderTopWidth: 1,
-    borderTopColor:colors.background,
+    borderTopColor: colors.background,
     backgroundColor: colors.background,
   },
 });

@@ -16,7 +16,8 @@ import WheelPicker from "@quidone/react-native-wheel-picker";
 
 type Props = NativeStackScreenProps<RootStackParamList, "DOB">;
 
-export default function DOBScreen({ navigation }: Props) {
+export default function DOBScreen({ route, navigation }: Props) {
+  const { fitnessData } = route.params;
   const totalSteps = 7;
   const currentStep = 5;
   const progressWidth = `${(currentStep / totalSteps) * 100}%`;
@@ -109,10 +110,19 @@ export default function DOBScreen({ navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Next"
-          onPress={() =>
-            // console.log(`Birthday: ${months[month].label} ${day}, ${year}`)
-            navigation.navigate("Goal")
-          }
+          onPress={() => {
+            const dobString = `${year}-${String(month + 1).padStart(
+              2,
+              "0"
+            )}-${String(day).padStart(2, "0")}`;
+
+            const updatedFitnessData = {
+              ...fitnessData,
+              dob: dobString,
+            };
+            console.log("dob screen:");
+            navigation.navigate("Goal", { fitnessData: updatedFitnessData });
+          }}
           variant="primary"
         />
       </View>

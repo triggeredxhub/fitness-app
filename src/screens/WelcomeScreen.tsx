@@ -5,8 +5,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/Type";
 import colors from "../themes/colors";
 
-
-
 // Define navigation prop types
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
@@ -18,7 +16,11 @@ export default function WelcomeScreen(props: Props) {
       <Text style={styles.title}>VISUALS</Text>
 
       <View style={styles.buttonContainer}>
-        <Button title="Get Started" onPress={() => navigation.navigate("Gender", { fitnessData: {} })} variant="secondary"/>
+        <Button
+          title="Get Started"
+          onPress={() => navigation.navigate("Gender", { fitnessData: {} })}
+          variant="secondary"
+        />
         <Button
           title="Already have an account?"
           onPress={() => console.log("Navigate to login")}
@@ -55,4 +57,3 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
   },
 });
-
