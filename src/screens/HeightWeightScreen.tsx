@@ -25,7 +25,8 @@ interface PickerItem {
   label: string;
 }
 
-export default function HeightWeightScreen({ navigation }: Props) {
+export default function HeightWeightScreen({ route, navigation }: Props) {
+  const { fitnessData } = route.params;
   const [selected, setSelected] = useState<string | null>(null);
 
   const totalSteps = 7;
@@ -129,7 +130,7 @@ export default function HeightWeightScreen({ navigation }: Props) {
                   />
                   <WheelPicker
                     data={weightOptions}
-                    value={weight} 
+                    value={weight}
                     onValueChanged={(event) => setWeight(event.item.value)}
                     style={styles.picker}
                     width={100}
@@ -141,7 +142,7 @@ export default function HeightWeightScreen({ navigation }: Props) {
                 <View style={styles.pickerContainer}>
                   <WheelPicker
                     data={cmOptions}
-                    value={cm} 
+                    value={cm}
                     onValueChanged={(event) => setCm(event.item.value)}
                     style={styles.picker}
                     width={100}
@@ -149,7 +150,7 @@ export default function HeightWeightScreen({ navigation }: Props) {
                   />
                   <WheelPicker
                     data={kgOptions}
-                    value={kg} 
+                    value={kg}
                     onValueChanged={(event) => setKg(event.item.value)}
                     style={styles.picker}
                     width={100}
@@ -166,7 +167,23 @@ export default function HeightWeightScreen({ navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Next"
-          onPress={() => navigation.navigate("DOB")}   
+          onPress={() => {
+            const formattedHeight = !isMetric
+              ? `${feet} ft ${inch} in`
+              : `${cm} cm`;
+
+            const formattedWeight = !isMetric ? `${weight} lb` : `${kg} kg`;
+
+            const updatedFitnessData = {
+              ...fitnessData, // <- keep previous gender, workout, etc.
+              height: formattedHeight,
+              weight: formattedWeight,
+            };
+
+            console.log("HeightWeight screen:");
+
+            navigation.navigate("DOB", { fitnessData: updatedFitnessData });
+          }}
           variant="primary"
         />
       </View>

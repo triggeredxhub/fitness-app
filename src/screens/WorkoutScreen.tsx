@@ -16,10 +16,11 @@ import { RootStackParamList } from "../navigation/Type";
 import { Ionicons } from "@expo/vector-icons"; // expo vector icons
 import InfoTile from "../components/InfoTile";
 
-
 type Props = NativeStackScreenProps<RootStackParamList, "Workout">;
 
-export default function WorkoutScreen({ navigation }: Props) {
+export default function WorkoutScreen({ route, navigation }: Props) {
+  const { fitnessData } = route.params;
+  
   const [selected, setSelected] = useState<string | null>(null);
 
   // Progress bar: Workout is step 3 of 7
@@ -40,17 +41,6 @@ export default function WorkoutScreen({ navigation }: Props) {
         <View style={styles.progressBar}>
           <View style={[styles.progressFill, { width: progressWidth }]} />
         </View>
-
-        {/* Language icon
-        <TouchableOpacity onPress={() => console.log("Change language")}>
-          <View style={styles.languageContainer}>
-            <Image
-              source={{ uri: "https://flagcdn.com/w20/us.png" }} // small US flag
-              style={styles.flag}
-            />
-            <Text style={styles.languageText}>EN</Text>
-          </View>
-        </TouchableOpacity> */}
       </View>
 
       {/* MAIN CONTENT */}
@@ -95,7 +85,21 @@ export default function WorkoutScreen({ navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Next"
-          onPress={() => navigation.navigate("HeightWeight")}
+          onPress={() => {
+            if (!selected) {
+              console.log("No selection yet");
+              return;
+            }
+            const updatedFitnessData = {
+              ...fitnessData,
+              workoutsPerWeek: selected,
+            };
+            console.log("workout screen");
+
+            navigation.navigate("HeightWeight", {
+              fitnessData: updatedFitnessData,
+            });
+          }}
           variant="primary"
         />
       </View>
@@ -149,7 +153,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    
   },
   contentHeader: {
     marginBottom: 40,

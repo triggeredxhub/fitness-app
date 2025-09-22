@@ -1,10 +1,10 @@
 // types/fitnessData.ts
 export type FitnessData = {
-  gender?: "male" | "female";
-  workoutsPerWeek?: number;
-  height?: number;
-  weight?: number;
+  gender?: string
+  workoutsPerWeek?: string;
+  height?: string;
+  weight?: string;
   dob?: string; // or Date
-  goal?: "lose" | "maintain" | "gain";
+  goal?: string;
   desiredWeight?: number;
 };

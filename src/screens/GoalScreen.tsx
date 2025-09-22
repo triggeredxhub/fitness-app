@@ -17,7 +17,8 @@ import { Ionicons } from "@expo/vector-icons"; // expo vector icons
 
 type Props = NativeStackScreenProps<RootStackParamList, "Goal">;
 
-export default function GoalScreen({ navigation }: Props) {
+export default function GoalScreen({route, navigation }: Props) {
+  const { fitnessData } = route.params;
   const [selected, setSelected] = useState<string | null>(null);
 
   
@@ -79,7 +80,18 @@ export default function GoalScreen({ navigation }: Props) {
       <View style={styles.footer}>
         <Button
           title="Next"
-          onPress={() => navigation.navigate("DesiredWeight")}
+          onPress={() => {
+            if(!selected) {
+              console.log("No selection yet");
+              return;
+            }
+            const updatedFitnessData = {
+              ...fitnessData,
+              goal: selected,
+            };
+            console.log("DesiredWeight screen:");
+            navigation.navigate("DesiredWeight", { fitnessData: updatedFitnessData });
+          }}
           variant="primary"
         />
       </View>

@@ -8,4 +8,5 @@ export type RootStackParamList = {
   DOB: { fitnessData: FitnessData };
   Goal: { fitnessData: FitnessData };
   DesiredWeight: { fitnessData: FitnessData };
+  Summary: { fitnessData: FitnessData };
 };
