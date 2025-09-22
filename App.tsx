@@ -8,6 +8,7 @@ import HeightWeightScreen from "./src/screens/HeightWeightScreen";
 import DOBScreen from "./src/screens/DOBScreen";
 import GoalScreen from "./src/screens/GoalScreen";
 import DesiredWeightScreen from "./src/screens/DesiredWeightScreen";
+import SummaryScreen from "./src/screens/SummaryScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -25,6 +26,7 @@ export default function App() {
         <Stack.Screen name="DOB" component={DOBScreen} />
         <Stack.Screen name="Goal" component={GoalScreen} />
         <Stack.Screen name="DesiredWeight" component={DesiredWeightScreen} />
+        <Stack.Screen name="Summary" component={SummaryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

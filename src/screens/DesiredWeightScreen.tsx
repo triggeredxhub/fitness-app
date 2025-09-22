@@ -25,7 +25,9 @@ interface PickerItem {
 
 type Props = NativeStackScreenProps<RootStackParamList, "DesiredWeight">;
 
-export default function DesiredWeightScreen({ navigation }: Props) {
+export default function DesiredWeightScreen({ route, navigation }: Props) {
+  const { fitnessData } = route.params;
+
   const [weight, setWeight] = useState<number>(62);
 
   const totalSteps = 7;
@@ -79,7 +81,6 @@ export default function DesiredWeightScreen({ navigation }: Props) {
             </View>
             <View style={styles.wheelPickerTitle}>
               <Text style={styles.sectionTitle}>Lose weight</Text>
-              
             </View>
 
             {/* Pickers */}
@@ -97,7 +98,6 @@ export default function DesiredWeightScreen({ navigation }: Props) {
                     stepWidth={12}
                     longStepInterval={10}
                     onValueChange={(v) => setWeight(v)}
-                    onValueChangeEnd={(v) => console.log("final", v)}
                   />
                 </View>
               ) : (
@@ -121,8 +121,19 @@ export default function DesiredWeightScreen({ navigation }: Props) {
       {/* FOOTER */}
       <View style={styles.footer}>
         <Button
-          title="Next"
-          onPress={() => console.log("Next pressed")}
+          title="Finish"
+          onPress={() => {
+            const desiredWeightValue = !isMetric ? weight : kg;
+            const unit = "kg"; // if you want to store the unit separately
+
+            // Merge with fitnessData
+            const updatedFitnessData = {
+              ...fitnessData,
+              desiredWeight: desiredWeightValue,
+            };
+
+            navigation.navigate("Summary", { fitnessData: updatedFitnessData });
+          }}
           variant="primary"
         />
       </View>
